@@ -1,1 +1,80 @@
-html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>julianraya.com!!!</title>
+    <style>
+      html,body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 960px;
+        margin: auto;
+      }
+      div {
+        text-align: right;
+        font-family: Arial, sans-serif;
+        font-size: 10px;
+        margin: 0;
+        padding: 0;
+      }
+      pre {
+        margin: 0;
+        padding: 0;
+        font-size: 6px;
+        float: left;
+        width: 320px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/d3.js" charset="utf-8"></script>
+
+    <script>
+    function Mandelbrot(){
+      var maxIterations = 1000,
+          scaleX = d3.scale.linear().range([-2.5, 1]),
+          scaleY = d3.scale.linear().range([-1, 1]),
+          characters = "¢£¤¥¦§¨©ª«¬®¯°±²³µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ" +
+              "!#$%&()*+-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~¡";
+
+      return function mandelbrot(h,w){
+        var matrix = d3.range(0,h).map(function(){return new Array(w) }),
+            chars = d3.shuffle(characters.split(''));
+        scaleX.domain([0,h]);
+        scaleY.domain([0,w]);
+        for(var px = 0; px < matrix.length; px++){
+          for(var py = 0; py < matrix[px].length; py++){
+            var x0 = scaleX(px),
+                y0 = scaleY(py),
+                x = 0.0,
+                y = 0.0,
+                i = 0,
+                tx;
+              while(x*x + y*y < 2*2 && i++ < maxIterations){
+                tx = x*x - y*y + x0;
+                y = 2*x * y+y0;
+                x = tx;
+              }
+              matrix[px][py] = chars[i % chars.length];
+          }
+        }
+        return matrix;
+      };
+    }
+
+    var fractal = Mandelbrot();
+    var pre =function(){
+      return '<pre>' + fractal(80,80).map(function(row){ return row.join('') }).join('\n') + '</pre>';
+    };
+    document.write('<div>julianraya.com</div>' +
+        pre()+pre()+pre()+
+        pre()+pre()+pre()+
+        pre()+pre()+pre()+
+        pre()+pre()+pre()+
+        pre()+pre()+pre()+
+        pre()+pre()+pre());
+
+     </script>
+  </body>
+</html>
