@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>julianraya.com!!!</title>
     <style>
-      html,body {
+      html,body,div {
         margin: 0;
         padding: 0;
       }
@@ -12,72 +12,77 @@
         width: 960px;
         margin: auto;
       }
-      div {
+      .title {
         text-align: right;
         font-family: Arial, sans-serif;
         font-size: 10px;
-        margin: 0;
-        padding: 0;
+        background: white;
+        position: fixed;
+        height: 14px;
+        width: 960px;
+        border-bottom: #666 1px solid;
+        box-shadow: 0 2px 0 #fff;
       }
-      pre {
-        margin: 0;
-        padding: 0;
+      .snowman {
+        font-family: monospace;
         font-size: 6px;
+        line-height: 6px;
         float: left;
         width: 320px;
+        white-space: nowrap;
       }
       svg {
       }
     </style>
   </head>
   <body>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <div class="title">julianraya.com</div>
+
+    <script src="d3.js"></script>
     <script>
 
-    function Mandelbrot(){
+      var z = 1;
       var maxIterations = 1000,
-          scaleX = d3.scale.linear().range([-2.5, 1]),
-          scaleY = d3.scale.linear().range([-1, 1]),
-          characters = "¢£¤¥¦§¨©ª«¬®¯°±²³µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ" +
-              "!#$%&()*+-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~¡";
+          characters = "¢£¤¥¦§¨©ª«¬®¯°±²³µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüý" +
+              "þÿ!#$%&()*+-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~¡",
+          cx = [-2.2, 0.8],
+          cy = [-1, 1];
 
-      return function mandelbrot(h,w){
-        var matrix = d3.range(0,h).map(function(){return new Array(w) }),
-            chars = d3.shuffle(characters.split(''));
-        scaleX.domain([0,h]);
-        scaleY.domain([0,w]);
-        for(var px = 0; px < matrix.length; px++){
-          for(var py = 0; py < matrix[px].length; py++){
-            var x0 = scaleX(px),
-                y0 = scaleY(py),
+
+      function mandelbrot(h,w){
+        var chars = d3.shuffle(characters.split(''));
+        return d3.range(0,w).map(function(px){
+          return d3.range(0,h).map(function(py){
+            var x0 = (px / w * (cx[1] - cx[0]) + cx[0]),// / 300,
+                y0 = (py / h* (cy[1] - cy[0]) + cy[0]),// / 300,
                 x = 0.0,
                 y = 0.0,
                 i = 0,
                 tx;
-              while(x*x + y*y < 2*2 && i++ < maxIterations){
-                tx = x*x - y*y + x0;
-                y = 2*x * y+y0;
-                x = tx;
-              }
-              matrix[px][py] = chars[i % chars.length];
-          }
-        }
-        return matrix;
+            while(x*x*z + y*y*z < 2*2 && i++ < maxIterations){
+              tx = x*x*z - y*y*z + x0;
+              y = x* y*z + x*y*z + y0;
+              x = tx;
+            }
+            return chars[i % chars.length];
+          });
+        });
+      }
+
+      var snowman =function(){
+        var div = document.createElement('div');
+        div.innerHTML = mandelbrot(80,80).map(function(row){ return row.join('') }).join('<br>');
+        div.classList.add('snowman');
+        document.body.appendChild(div);
       };
-    }
 
-    var fractal = Mandelbrot();
-    var pre =function(){
-      return '<pre>' + fractal(80,80).map(function(row){ return row.join('') }).join('\n') + '</pre>';
-    };
-    document.write('<div>julianraya.com</div>' +
-        pre()+pre()+pre()+
-        pre()+pre()+pre()+
-        pre()+pre()+pre()+
-        pre()+pre()+pre()+
-        pre()+pre()+pre()+
-        pre()+pre()+pre());
+      snowman();snowman();snowman();
+      snowman();snowman();snowman();
+      snowman();snowman();snowman();
+      snowman();snowman();snowman();
+      snowman();snowman();snowman();
+      snowman();snowman();snowman();
 
-     </script>
+    </script>
   </body>
 </html>
