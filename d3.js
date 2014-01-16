@@ -1,6 +1,7 @@
 !function(){
   var d3 = {version: "3.4.1"}; // semver
   var abs = Math.abs;
+  
 
   d3.range = function(start, stop, step) {
     if (arguments.length < 3) {
@@ -41,4 +42,5 @@
   } else {
     this.d3 = d3;
   }
+
 }();
