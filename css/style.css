@@ -1,0 +1,30 @@
+html,body,div {
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 960px;
+  margin: auto;
+}
+.title {
+  text-align: right;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  background: white;
+  position: fixed;
+  height: 14px;
+  width: 960px;
+  border-bottom: #666 1px solid;
+  box-shadow: 0 2px 0 #fff;
+}
+
+.snowman {
+  font-family: monospace;
+  font-size: 6px;
+  line-height: 5px;
+  float: left;
+  width: 320px;
+  white-space: nowrap;
+}
+
+.snowman.crazy { text-align: center; }
